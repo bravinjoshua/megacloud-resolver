@@ -1,13 +1,18 @@
-const puppeteer = require("puppeteer-extra");
-const StealthPlugin = require("puppeteer-extra-plugin-stealth");
-const fs = require("fs");
-const path = require("path");
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
 
-const js = fs.readFileSync(path.join(__dirname, "mega.js"), "utf-8");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
+const js = readFileSync(join(__dirname, "mega.js"), "utf-8");
+
+// console.log(js);
 puppeteer.use(StealthPlugin());
 
-async function MegaCloud(url) {
+export async function MegaCloud(url) {
   const browser = await puppeteer.launch({
     headless: true,
     devtools: false,
@@ -95,5 +100,3 @@ async function MegaCloud(url) {
 
   return Promise.race([consoleHandler, timeout]);
 }
-
-module.exports = { MegaCloud };
