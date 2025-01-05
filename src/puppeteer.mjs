@@ -10,9 +10,9 @@ const __dirname = dirname(__filename);
 const js = readFileSync(join(__dirname, "mega.js"), "utf-8");
 
 // console.log(js);
-puppeteer.use(StealthPlugin());
 
 export async function MegaCloud(url) {
+  puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
     headless: true,
     devtools: false,
