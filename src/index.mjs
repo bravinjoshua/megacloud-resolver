@@ -1,6 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { ResolveSources } from "../src/fetchSources.mjs";
+import { ResolveSources } from "./fetchSources.mjs";
 const app = new Hono();
 app.get("/", (c) => c.text("Hono meets Node.js"));
 app.get("/api", (c) => c.text("use api/resolve?id="));
