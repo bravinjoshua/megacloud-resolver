@@ -14,6 +14,7 @@ const js = readFileSync(join(__dirname, "mega.js"), "utf-8");
 export async function MegaCloud(url) {
   puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
+    executablePath: "/usr/bin/chromium",
     headless: true,
     devtools: false,
     args: [

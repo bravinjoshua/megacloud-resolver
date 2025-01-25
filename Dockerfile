@@ -4,7 +4,7 @@ FROM node:20
 # Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Install system dependencies required for Puppeteer
+# Install system dependencies required for Puppeteer and Chromium
 RUN apt-get update && \
     apt-get install -y \
     gconf-service \
