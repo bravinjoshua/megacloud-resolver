@@ -29,6 +29,7 @@ export async function MegaCloud(url) {
       "--no-first-run",
       "--no-default-browser-check",
       "--disable-default-apps",
+      "--headless",
     ],
   });
   const page = await browser.newPage();
