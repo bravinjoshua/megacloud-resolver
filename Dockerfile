@@ -1,34 +1,24 @@
-# Use Node.js slim as the base image
-FROM node:slim
+FROM ghcr.io/puppeteer/puppeteer:latest 
 
-# Skip Chromium download for Puppeteer
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# Using Root to enable SYS_ADMIN capabilities (for running the browser in sandbox mode )
+USER root 
 
-# Install Google Chrome Stable
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gnupg \
-    wget \
-    && wget --quiet --output-document=- https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /etc/apt/trusted.gpg.d/google-archive.gpg \
-    && sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-    google-chrome-stable \
-    && rm -rf /var/lib/apt/lists/*
+# Install Puppeteer under /node_modules so it's available system-wide
+COPY package.json /app/
+COPY . /app/
 
-# Set the working directory
-WORKDIR /app
+RUN cd /app/ && npm install
 
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
+WORKDIR /app  
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose the port your app runs on
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "run", "start"]
+# set env variable ( due to issue talked about here https://github.com/puppeteer/puppeteer/issues/11023#issuecomment-1776247197)
+
+ENV XDG_CONFIG_HOME=/tmp/.chromium
+ENV XDG_CACHE_HOME=/tmp/.chromium
+
+# Install browsers ( post-install scripts)
+RUN npx puppeteer browsers install
+
+CMD ["npm", "start"]
