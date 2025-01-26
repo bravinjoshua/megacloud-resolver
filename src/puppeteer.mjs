@@ -9,12 +9,10 @@ const __dirname = dirname(__filename);
 
 const js = readFileSync(join(__dirname, "mega.js"), "utf-8");
 
-// console.log(js);
-
 export async function MegaCloud(url) {
   puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
-    // executablePath: "/usr/bin/chromium",
+    executablePath: "/usr/bin/google-chrome",
     headless: true,
     devtools: false,
     args: [
