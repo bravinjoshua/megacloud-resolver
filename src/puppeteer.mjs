@@ -12,7 +12,7 @@ const js = readFileSync(join(__dirname, "mega2.js"), "utf-8");
 export async function MegaCloud(url) {
   puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     devtools: false,
     args: [
       "--no-sandbox",
