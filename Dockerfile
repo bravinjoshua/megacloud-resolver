@@ -1,24 +1,26 @@
-FROM ghcr.io/puppeteer/puppeteer:latest 
+FROM ghcr.io/puppeteer/puppeteer:latest
 
-# Using Root to enable SYS_ADMIN capabilities (for running the browser in sandbox mode )
-USER root 
+# Using the default Puppeteer user for security
+USER pptruser
 
-# Install Puppeteer under /node_modules so it's available system-wide
-COPY package.json /app/
-COPY . /app/
-
-RUN cd /app/ && npm install
-
-WORKDIR /app  
-
-EXPOSE 3000
-
-# set env variable ( due to issue talked about here https://github.com/puppeteer/puppeteer/issues/11023#issuecomment-1776247197)
-
+# Set environment variables to reduce caching overhead
 ENV XDG_CONFIG_HOME=/tmp/.chromium
 ENV XDG_CACHE_HOME=/tmp/.chromium
 
-# Install browsers ( post-install scripts)
-RUN npx puppeteer browsers install
+# Set working directory
+WORKDIR /app
 
+# Copy application files
+COPY package.json package-lock.json ./
+
+# Install only production dependencies
+RUN npm ci --only=production
+
+# Copy the rest of the app files
+COPY . .
+
+# Expose the application port
+EXPOSE 3000
+
+# Command to start the application
 CMD ["npm", "start"]
