@@ -7,13 +7,12 @@ import { dirname, join } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const js = readFileSync(join(__dirname, "mega.js"), "utf-8");
+const js = readFileSync(join(__dirname, "mega2.js"), "utf-8");
 
 export async function MegaCloud(url) {
   puppeteer.use(StealthPlugin());
   const browser = await puppeteer.launch({
-    // executablePath: "/usr/bin/google-chrome",
-    headless: true,
+    headless: false,
     devtools: false,
     args: [
       "--no-sandbox",
@@ -28,24 +27,31 @@ export async function MegaCloud(url) {
       "--no-first-run",
       "--no-default-browser-check",
       "--disable-default-apps",
-      "--headless",
     ],
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 800, height: 600 });
 
   await page.setExtraHTTPHeaders({ Referer: url });
   await page.setRequestInterception(true);
-  await page.setCacheEnabled(true);
 
   // Block certain requests
   page.on("request", (request) => {
     const requestUrl = request.url();
     if (
+      ///js/pmediaplay.js?v=1.5
+      //hls.js?v=0.2
+      //nakedanalytics.net/
+      // favicon
       requestUrl.includes("e1-player.min.js") ||
       requestUrl.includes("google") ||
       requestUrl.includes("embed.css?v=0.4") ||
-      requestUrl.includes("ssl.p.jwpcdn.com")
+      requestUrl.includes("ssl.p.jwpcdn.com") ||
+      ///embed
+
+      requestUrl.includes("pmediaplay.js?v=1.5") ||
+      requestUrl.includes("nakedanalytics.net/") ||
+      requestUrl.includes("hls.js?v=0.2") ||
+      requestUrl.includes("favicon")
     ) {
       request.abort();
     } else {
@@ -53,10 +59,9 @@ export async function MegaCloud(url) {
     }
   });
 
-  // Go to the page and wait for it to load
-  await page.goto(url, { waitUntil: "domcontentloaded" });
+  // Go to the page
+  await page.goto(url);
 
-  // Inject JS content
   try {
     await page.evaluate((jsContent) => {
       eval(jsContent);
@@ -95,7 +100,7 @@ export async function MegaCloud(url) {
       page.off("console", () => {});
       browser.close();
       reject("Timeout: No valid value found within 5 seconds");
-    }, 6000);
+    }, 5000);
   });
 
   return Promise.race([consoleHandler, timeout]);
