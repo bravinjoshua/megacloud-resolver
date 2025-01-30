@@ -1,9 +1,10 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { ResolveSources } from "./fetchSources.mjs";
+import { closeBrowser, launchBrowser } from "./puppeteer.mjs";
 
 const app = new Hono();
-
+launchBrowser();
 app.get("/", (c) => c.text("Hono meets Node.js"));
 app.get("/api", (c) => c.text("use api/resolve?id="));
 app.get("/api/resolve", async (c) => {
@@ -28,6 +29,7 @@ const server = serve(app, (info) => {
 
 process.on("SIGTERM", () => {
   console.log("Received SIGTERM signal. Shutting down gracefully...");
+  closeBrowser();
   server.close(() => {
     console.log("Server closed.");
     process.exit(0);

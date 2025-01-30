@@ -1,37 +1,41 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-// import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// const js = readFileSync(join(__dirname, "mega2.js"), "utf-8");
+// Global variable to store the browser instance
+let browserInstance = null;
 
 // Function to initialize Puppeteer with stealth and launch browser
-async function launchBrowser() {
-  puppeteer.use(StealthPlugin());
-  return await puppeteer.launch({
-    headless: "shell",
-    devtools: false,
-    args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-infobars",
-      "--disable-extensions",
-      "--disable-dev-shm-usage",
-      "--disable-background-networking",
-      "--disable-renderer-backgrounding",
-      "--disable-software-rasterizer",
-      "--mute-audio",
-      "--no-first-run",
-      "--no-default-browser-check",
-      "--disable-default-apps",
-      "--disable-gpu",
-      "--disable-fonts",
-    ],
-  });
+export async function launchBrowser() {
+  if (!browserInstance) {
+    puppeteer.use(StealthPlugin());
+    browserInstance = await puppeteer.launch({
+      headless: "shell",
+      // headless: false,
+      devtools: false,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-infobars",
+        "--disable-extensions",
+        "--disable-dev-shm-usage",
+        "--disable-background-networking",
+        "--disable-renderer-backgrounding",
+        "--disable-software-rasterizer",
+        "--mute-audio",
+        "--no-first-run",
+        "--no-default-browser-check",
+        "--disable-default-apps",
+        "--disable-gpu",
+        "--disable-fonts",
+      ],
+    });
+  }
+  return browserInstance;
 }
 
 // Function to handle request interception
@@ -111,6 +115,14 @@ export async function MegaCloud(url) {
     console.error("Error during scraping:", error);
     throw error;
   } finally {
-    await browser.close(); // Ensure the browser is closed
+    await page.close(); // Close the page after the task
+  }
+}
+
+// Function to close the browser
+export async function closeBrowser() {
+  if (browserInstance) {
+    await browserInstance.close();
+    browserInstance = null; // Reset the global instance
   }
 }
