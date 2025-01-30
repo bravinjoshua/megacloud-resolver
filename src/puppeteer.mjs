@@ -1,20 +1,20 @@
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { readFileSync } from "fs";
+// import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const js = readFileSync(join(__dirname, "mega2.js"), "utf-8");
+// const js = readFileSync(join(__dirname, "mega2.js"), "utf-8");
 
 // Function to initialize Puppeteer with stealth and launch browser
 async function launchBrowser() {
   puppeteer.use(StealthPlugin());
   return await puppeteer.launch({
     headless: "shell",
-    // devtools: false,
+    devtools: false,
     args: [
       "--no-sandbox",
       "--disable-setuid-sandbox",
@@ -28,6 +28,8 @@ async function launchBrowser() {
       "--no-first-run",
       "--no-default-browser-check",
       "--disable-default-apps",
+      "--disable-gpu",
+      "--disable-fonts",
     ],
   });
 }
@@ -67,9 +69,11 @@ export async function MegaCloud(url) {
     await page.goto(url, { waitUntil: "domcontentloaded" });
 
     // Inject and execute custom JavaScript
-    await page.evaluate((jsContent) => {
-      eval(jsContent);
-    }, js);
+    try {
+      await page.addScriptTag({ path: join(__dirname, "mega2.js") });
+    } catch (error) {
+      console.error("Error injecting script:", error);
+    }
 
     // Handle console output and return result
     const consoleHandler = new Promise((resolve, reject) => {
