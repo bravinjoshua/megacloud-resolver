@@ -1,7 +1,7 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { ResolveSources } from "./fetchSources.mjs";
-import { closeBrowser, launchBrowser } from "./puppeteer.mjs";
+import { launchBrowser } from "./puppeteer.mjs";
 
 const app = new Hono();
 launchBrowser();
@@ -25,15 +25,6 @@ app.get("/api/resolve", async (c) => {
   }
 });
 
-const server = serve(app, (info) => {
+serve(app, (info) => {
   console.log(`Listening on http://localhost:${info.port}`);
-});
-
-process.on("SIGTERM", () => {
-  console.log("Received SIGTERM signal. Shutting down gracefully...");
-
-  server.close(() => {
-    console.log("Server closed.");
-    process.exit(0);
-  });
 });

@@ -14,7 +14,7 @@ export async function launchBrowser() {
   if (!browserInstance) {
     puppeteer.use(StealthPlugin());
     browserInstance = await puppeteer.launch({
-      headless: "shell",
+      headless: false,
       devtools: false,
       args: [
         "--no-sandbox",
