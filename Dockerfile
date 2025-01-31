@@ -1,7 +1,7 @@
 FROM ghcr.io/puppeteer/puppeteer:latest
 
 # Using the default Puppeteer user for security
-USER pptruser
+USER root
 
 # Set environment variables to reduce caching overhead
 ENV XDG_CONFIG_HOME=/tmp/.chromium
@@ -13,8 +13,7 @@ WORKDIR /app
 # Copy application files
 COPY package.json package-lock.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production
+
 
 # Copy the rest of the app files
 COPY . .
