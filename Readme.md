@@ -51,14 +51,14 @@ GET https://megacloud-resolver.onrender.com/api/resolve?id=IG37fwadA6iU
       {
         "default": false,
         "type": "hls",
-        "file": "https://example.com/path-to-video/master.m3u8",
+        "file": "https://w2r.biananset.net/_v7/dc99f44574209e253e9c75125b9cd5927d8cf8ebca6b31eb8578ef5f979b6aed6c4ff7dd482f73c25e2edfdd32ea47445485f73f2e04e168897b6cf6cd66a47e6a089503315ad28c670469491676132f1c6866f46b506f958929fe9fa321734482ce713d6c231262a01d6c266e9da174760b15c4bc628d5ad88351c3d3bfdc86/master.m3u8",
         "label": "0",
         "preload": "metadata"
       }
     ],
     "tracks": [
       {
-        "file": "https://example.com/path-to-subtitles/eng.vtt",
+        "file": "https://s.megastatics.com/subtitle/33b48869230e19e5838dadb3dfdcc3dc/eng-2.vtt",
         "label": "English",
         "kind": "captions",
         "default": true
