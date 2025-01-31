@@ -6,19 +6,6 @@ A lightweight API that extracts `.m3u8` streaming links from MegaCloud TV using 
 
 ---
 
-## 📌 Table of Contents
-
-- [Introduction](#Introduction)
-- [API Usage](#Api-usage)
-- [How It Works](#How-it-works)
-- [Local Development](#Local-development)
-- [Contributing](#Contributing)
-- [Credits](#Credits)
-- [License](#License)
-- [Disclaimer](#Disclaimer)
-
----
-
 ## 🔹 Introduction
 
 This API allows you to retrieve `.m3u8` streaming links by providing a **MegaCloud TV ID** (e.g., `Wc3rcZdVwikO?k=1`). It uses **Puppeteer** to dynamically scrape and extract the `.m3u8` link from MegaCloud’s embed page.
@@ -138,10 +125,8 @@ To run the project locally, follow these steps:
 
 ✔ **Puppeteer-Powered** – Uses headless browser automation to extract `.m3u8` links.  
 ✔ **Simple API** – Just append the **MegaCloud TV ID** to the URL.  
-✔ **Subtitle Support** – Extracts and provides subtitle `.vtt` files.  
 ✔ **Performance Varies** – **Speed depends on CPU allocation** in the hosting environment.  
 ✔ **Decent Availability** – Hosted on **Render**, but the free instance may experience delays.  
-✔ **JSON Response** – Easy to integrate into applications.
 ✔ **Dockerfile** - A Dockerfile is available for self-hosting the service in a container
 
 ---
