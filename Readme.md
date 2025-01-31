@@ -8,14 +8,14 @@ A lightweight API that extracts `.m3u8` streaming links from MegaCloud TV using 
 
 ## 📌 Table of Contents
 
-- [Introduction](#introduction)
-- [API Usage](#api-usage)
-- [How It Works](#how-it-works)
-- [Local Development](#local-development)
-- [Contributing](#contributing)
-- [Credits](#credits)
-- [License](#license)
-- [Disclaimer](#disclaimer)
+- [Introduction](#Introduction)
+- [API Usage](#Api-usage)
+- [How It Works](#How-it-works)
+- [Local Development](#Local-development)
+- [Contributing](#Contributing)
+- [Credits](#Credits)
+- [License](#License)
+- [Disclaimer](#Disclaimer)
 
 ---
 
