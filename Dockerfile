@@ -1,26 +1,34 @@
-FROM ghcr.io/puppeteer/puppeteer:latest
+FROM node:20-alpine
 
-# Using the default Puppeteer user for security
-USER pptruser
 
-# Set environment variables to reduce caching overhead
-ENV XDG_CONFIG_HOME=/tmp/.chromium
-ENV XDG_CACHE_HOME=/tmp/.chromium
+RUN apk add \
+    chromium \
+    libstdc++ \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
 
-# Set working directory
+
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
+
 WORKDIR /app
 
-# Copy application files
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
-# Install only production dependencies
-RUN npm ci --only=production
 
-# Copy the rest of the app files
+
+RUN npm install
+
 COPY . .
 
-# Expose the application port
+
+
 EXPOSE 3000
 
-# Command to start the application
+
+
 CMD ["npm", "start"]

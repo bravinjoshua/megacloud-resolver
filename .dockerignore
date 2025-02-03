@@ -1,0 +1,28 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore test files
+tests/
+
+# Ignore environment variables
+.env
+
+# prettier
+.prettierignore
+prettier.config.mjs
+
+
+
+.gitignore
+
+hello.ts
+
+Readme.md
+
