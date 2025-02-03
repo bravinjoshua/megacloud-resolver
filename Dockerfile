@@ -1,4 +1,4 @@
-# bigger image faster though ngl
+# bigger image faster though ngl 4s on 0.1 cpu
 
 FROM ghcr.io/puppeteer/puppeteer:latest
 
@@ -16,7 +16,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN npm ci --only=production
+RUN npm ci ----omit=dev
 
 # Copy the rest of the app files
 COPY . .
@@ -28,7 +28,7 @@ CMD ["npm", "start"]
 
 
 
-# smaller docker image slower though ngl 
+# smaller docker image slower though ngl  8s on 0.1 cpu 512ram
 
 
 # FROM node:18-alpine
