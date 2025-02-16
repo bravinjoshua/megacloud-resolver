@@ -16,7 +16,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install only production dependencies
-RUN npm ci ----omit=dev
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy the rest of the app files
 COPY . .
@@ -26,9 +26,6 @@ EXPOSE 3000
 # Command to start the application
 CMD ["npm", "start"]
 
-
-
-# smaller docker image slower though ngl  8s on 0.1 cpu 512ram
 
 
 # FROM node:18-alpine
